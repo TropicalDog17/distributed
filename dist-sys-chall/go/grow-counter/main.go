@@ -21,7 +21,7 @@ func (d DataStore) handle(message Message) Message {
 	response.Dest = message.Src
 	response.Id = nextResponseId
 	response.Body = message.Body
-	key, _ := message.Body["value"].(string)
+	key, _ := message.Body["key"].(string)
 	switch message.Body["type"] {
 	case "read":
 		val, ok := d.kv[key]
@@ -37,7 +37,7 @@ func (d DataStore) handle(message Message) Message {
 	case "cas":
 		// check if key exists
 		from := message.Body["from"].(int)
-		to := message.Body["value"].(int)
+		to := message.Body["to"].(int)
 		create_if_not_exists := message.Body["create_if_not_exists"].(bool)
 		val, key_exist := d.kv[key]
 		if key_exist {
@@ -50,7 +50,7 @@ func (d DataStore) handle(message Message) Message {
 			}
 		} else {
 			if create_if_not_exists {
-				d.kv[key], _ = message.Body["value"].(int)
+				d.kv[key] = to
 				response.Body["type"] = "cas_ok"
 			} else {
 				response.Body["type"] = "error"
