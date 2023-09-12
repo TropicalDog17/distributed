@@ -2,7 +2,10 @@ module github.com/TropicalDog17/distributed/dis-sys-chall/go/grow-counter
 
 go 1.18
 
-require github.com/stretchr/testify v1.8.4
+require (
+	github.com/stretchr/testify v1.8.4
+	golang.org/x/exp v0.0.0-20230905200255-921286631fa9
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
